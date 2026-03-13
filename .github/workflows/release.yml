@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Nim
+        uses: jiro-aqua/setup-nim-action@v1
+        with:
+          nim-version: "stable"
+
+      - name: Install dependencies
+        run: nimble install -d --accept
+
+      - name: Build
+        run: nimble build -d:release
+
+      - name: Archive (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          BINARY=$(nimble dump | grep "^bin:" | awk '{print $2}' | tr -d '"')
+          tar czf ${BINARY}-${{ runner.os }}-${{ github.ref_name }}.tar.gz ${BINARY}
+
+      - name: Archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $bin = (nimble dump | Select-String "^bin:").ToString().Split('"')[1]
+          Compress-Archive -Path "${bin}.exe" -DestinationPath "${bin}-Windows-${{ github.ref_name }}.zip"
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            *.tar.gz
+            *.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
