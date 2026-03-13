@@ -44,6 +44,7 @@ jobs:
         shell: pwsh
         run: |
           $bin = (nimble dump | Select-String "^bin:").ToString().Split('"')[1]
+          $bin = $bin -replace '\.exe$', '' 
           Compress-Archive -Path "${bin}.exe" -DestinationPath "${bin}-Windows-${{ github.event.inputs.version || github.ref_name }}.zip"
 
       - name: Upload to GitHub Release
