@@ -1,5 +1,7 @@
 # image_grid
 
+[日本語](https://yuki-8.gitbook.io/image-grid)
+
 A CLI tool for arranging microscope images (JPEG/PNG/TIFF) into a grid and exporting as a single PNG.
 
 Rows and columns of the grid are defined independently:
