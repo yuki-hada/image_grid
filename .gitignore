@@ -1,3 +1,6 @@
 nimcache/
 nimblecache/
 htmldocs/
+config.toml
+grid_output.png
+image_grid
