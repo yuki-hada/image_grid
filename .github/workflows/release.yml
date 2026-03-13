@@ -22,9 +22,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Nim
-        uses: jiro-aqua/setup-nim-action@v1
+        uses: jiro4989/setup-nim-action@v2
         with:
           nim-version: "stable"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
         run: nimble install -d --accept
@@ -36,14 +37,14 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           BINARY=$(nimble dump | grep "^bin:" | awk '{print $2}' | tr -d '"')
-          tar czf ${BINARY}-${{ runner.os }}-${{ github.ref_name }}.tar.gz ${BINARY}
+          tar czf ${BINARY}-${{ runner.os }}-${{ github.event.inputs.version || github.ref_name }}.tar.gz ${BINARY}
 
       - name: Archive (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $bin = (nimble dump | Select-String "^bin:").ToString().Split('"')[1]
-          Compress-Archive -Path "${bin}.exe" -DestinationPath "${bin}-Windows-${{ github.ref_name }}.zip"
+          Compress-Archive -Path "${bin}.exe" -DestinationPath "${bin}-Windows-${{ github.event.inputs.version || github.ref_name }}.zip"
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
