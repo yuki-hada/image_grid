@@ -11,3 +11,4 @@ bin           = @["image_grid"]
 # Dependencies
 
 requires "nim >= 2.2.8"
+requires "stb_image >= 2.5"
