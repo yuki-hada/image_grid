@@ -191,15 +191,15 @@ pattern   = "*.jpg"
 
 [[rows]]
 label = "PC"
-match = "C1_RANG0-4095"
+match = "C1"
 
 [[rows]]
 label = "GFP"
-match = "C2_RANG126-53324"
+match = "C2"
 
 [[rows]]
 label = "RFP"
-match = "C3_RANG102-3145"
+match = "C3"
 
 [cols_extract]
 extract = "W\d{4}F0001"
