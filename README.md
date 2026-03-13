@@ -91,15 +91,15 @@ Define rows explicitly in order. Each entry requires:
 ```toml
 [[rows]]
 label = "PC"
-match = "C1_RANG0-4095"
+match = "C1"
 
 [[rows]]
 label = "GFP"
-match = "C2_RANG126-53324"
+match = "C2"
 
 [[rows]]
 label = "RFP"
-match = "C3_RANG102-3145"
+match = "C3"
 ```
 
 ### Columns — manual (`[[cols]]`)
