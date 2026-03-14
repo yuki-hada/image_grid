@@ -5,10 +5,10 @@ import config, scanner, composer, types
 const VERSION = "0.1.0"
 
 const HELP = """
-microscope_grid v""" & VERSION & """
+image_grid v""" & VERSION & """
 
 Usage:
-  microscope_grid [options]
+  image_grid [options]
 
 Options:
   -c, --config <path>   Config file path (default: config.toml)
@@ -94,7 +94,7 @@ proc parseArgs(): CliOptions =
 proc run() =
   let opts = parseArgs()
 
-  echo "microscope_grid v", VERSION
+  echo "image_grid v", VERSION
   echo ""
 
   # ---- 設定読み込み ----
