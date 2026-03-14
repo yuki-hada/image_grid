@@ -40,12 +40,34 @@ proc parseTomlFile(path: string): seq[TomlSection] =
   sections.add(current)
   return sections
 
+proc unescapeTomlBasicString(s: string): string =
+  ## "..." 基本文字列のエスケープシーケンスを処理する
+  var i = 0
+  while i < s.len:
+    if s[i] == '\\' and i + 1 < s.len:
+      case s[i+1]
+      of '"':  result.add('"');  i += 2
+      of '\\': result.add('\\'); i += 2
+      of 'n':  result.add('\n'); i += 2
+      of 't':  result.add('\t'); i += 2
+      of 'r':  result.add('\r'); i += 2
+      else:
+        # \d, \w など正規表現でよく使うものはそのまま両文字を保持
+        result.add(s[i]); result.add(s[i+1]); i += 2
+    else:
+      result.add(s[i]); i += 1
+
+proc parseTomlString(v: string): string =
+  ## TOML文字列値をパースする
+  ## '...'  リテラル文字列: バックスラッシュをそのまま扱う
+  ## "..."  基本文字列:     エスケープシーケンスを処理する
+  if v.startsWith('\'') and v.endsWith('\''): return v[1..^2]  # literal
+  if v.startsWith('"')  and v.endsWith('"'):  return unescapeTomlBasicString(v[1..^2])
+  return v
+
 proc getStr(keys: seq[tuple[k, v: string]], key: string, default = ""): string =
   for pair in keys:
-    if pair.k == key:
-      let v = pair.v
-      if v.startsWith('"') and v.endsWith('"'): return v[1..^2]
-      return v
+    if pair.k == key: return parseTomlString(pair.v)
   return default
 
 proc getInt(keys: seq[tuple[k, v: string]], key: string, default = 0): int =
@@ -61,7 +83,7 @@ proc getSeqStr(keys: seq[tuple[k, v: string]], key: string): seq[string] =
       let v = pair.v.strip()
       if v.startsWith("[") and v.endsWith("]"):
         let inner = v[1..^2]
-        return inner.split(',').mapIt(it.strip().strip(chars = {'"'})).filterIt(it.len > 0)
+        return inner.split(',').mapIt(parseTomlString(it.strip())).filterIt(it.len > 0)
   return @[]
 
 # ---- Config 構築 ----
@@ -175,4 +197,3 @@ proc echoConfig*(cfg: Config) =
   of amExtract:
     echo "  Cols [auto]   : extract=", cfg.colAxis.extractCfg.extract,
          "  sort=", cfg.colAxis.extractCfg.sort
-         
