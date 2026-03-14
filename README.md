@@ -37,7 +37,8 @@ Options:
   -d, --dir <path>      Source directory (overrides config)
   --dry-run             Show grid layout only, skip image compositing
   --list                List matched files and exit
-  -v, --verbose         Verbose output
+  --verbose             Verbose output
+  -v, --version         Show version and exit
   -h, --help            Show this help
 ```
 

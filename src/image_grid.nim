@@ -2,7 +2,15 @@
 import std/[os, parseopt, strutils]
 import config, scanner, composer, types
 
-const VERSION = "0.1.0"
+const VERSION = static:
+  var v = "unknown"
+  for line in staticRead("../image_grid.nimble").splitLines():
+    if line.startsWith("version"):
+      let parts = line.split('=')
+      if parts.len == 2:
+        v = parts[1].strip().strip(chars = {'"'})
+      break
+  v
 
 const HELP = """
 image_grid v""" & VERSION & """
@@ -16,7 +24,8 @@ Options:
   -d, --dir <path>      Source directory (overrides config)
   --dry-run             Show grid layout only, skip image compositing
   --list                List matched files and exit
-  -v, --verbose         Verbose output
+  --verbose             Verbose output
+  -v, --version         Show version and exit
   -h, --help            Show this help
 
 Example config.toml:
@@ -72,6 +81,9 @@ proc parseArgs(): CliOptions =
       of "h", "help":
         echo HELP
         quit(0)
+      of "v", "version":
+        echo "image_grid version ", VERSION
+        quit(0)
       of "c", "config":
         result.configPath = p.val
       of "o", "output":
@@ -82,7 +94,7 @@ proc parseArgs(): CliOptions =
         result.dryRun = true
       of "list":
         result.listOnly = true
-      of "v", "verbose":
+      of "verbose":
         result.verbose = true
       else:
         echo "Unknown option: --", p.key
