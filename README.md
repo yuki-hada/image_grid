@@ -128,14 +128,14 @@ Extract column labels from filenames using a regex. Use this instead of `[[cols]
 
 ```toml
 [cols_extract]
-extract = "W\d{4}F0001"
+extract = 'W\d{4}F0001'
 sort    = "natural"
 ```
 
 Capture group example — label will be just the `W\d{4}` part:
 ```toml
 [cols_extract]
-extract = "(W\d{4})F0001"
+extract = '(W\d{4})F0001'
 sort    = "natural"
 ```
 
@@ -170,7 +170,7 @@ label = "GFP"
 match = "C2"
 
 [cols_extract]
-extract = "W\d{4}F0001"
+extract = 'W\d{4}F0001'
 sort    = "natural"
 ```
 
@@ -202,6 +202,6 @@ label = "RFP"
 match = "C3"
 
 [cols_extract]
-extract = "W\d{4}F0001"
+extract = 'W\d{4}F0001'
 sort    = "natural"
 ```
