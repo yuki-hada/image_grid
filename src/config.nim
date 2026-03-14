@@ -1,7 +1,4 @@
-## config.nim
 ## 自前の最小TOMLパーサーで設定ファイルを読み込む
-## toml_serialization を使わないので依存なし
-
 import std/[os, strutils, sequtils]
 import types
 

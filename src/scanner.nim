@@ -1,6 +1,4 @@
-## scanner.nim
 ## ファイルスキャンと行・列ルールへのマッチング
-
 import std/[os, strutils, algorithm, sequtils, re]
 import types
 
@@ -304,4 +302,3 @@ proc pageFilename*(baseName: string, page: GridPage, totalPages: int): string =
   let newName = name & "_" & num & ext
   if dir == "": newName
   else: dir / newName
-  

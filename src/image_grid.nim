@@ -1,18 +1,4 @@
-## main.nim
 ## CLIエントリポイント
-##
-## 使い方:
-##   microscope_grid [options] [config.toml]
-##
-## オプション:
-##   -c, --config <path>   設定ファイルのパス (デフォルト: config.toml)
-##   -o, --output <path>   出力ファイル名 (設定ファイルを上書き)
-##   -d, --dir <path>      ソースディレクトリ (設定ファイルを上書き)
-##   --dry-run             グリッドの配置確認のみ（画像合成しない）
-##   --list                マッチしたファイルの一覧表示
-##   -v, --verbose         詳細ログ
-##   -h, --help            ヘルプ表示
-
 import std/[os, parseopt, strutils]
 import config, scanner, composer, types
 
@@ -203,4 +189,3 @@ proc run() =
 
 when isMainModule:
   run()
-  

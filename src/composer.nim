@@ -1,6 +1,4 @@
-## composer.nim
 ## 画像を読み込んでグリッドに並べて出力
-
 import std/[os, strutils, math]
 import stb_image/read as stbi
 import stb_image/write as stbiw
@@ -212,4 +210,3 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
   if not ok:
     raise newException(IOError, "Failed to write output: " & outPath)
   echo "  Done! -> ", outPath
-  

@@ -1,6 +1,4 @@
-## types.nim
 ## 共通型定義
-
 type
   ## 軸（行・列）の定義モード
   AxisMode* = enum
@@ -72,4 +70,3 @@ type
     rowStart*, rowEnd*: int
     colStart*, colEnd*: int
     cells*: seq[seq[GridCell]]
-    
