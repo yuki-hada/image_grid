@@ -149,11 +149,20 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
   let nRows = cells.len
   let nCols = if nRows > 0: cells[0].len else: 0
 
-  let labelAreaH = 30   # 列ラベル用の上部余白
-  let labelAreaW = 80   # 行ラベル用の左部余白
   let gap = cfg.output.gap
   let cw = cfg.output.cell_width
   let ch = cfg.output.cell_height
+
+  let scale = max(1, cfg.output.label_font_size div FONT_H)
+  let charH = FONT_H * scale
+  let charW = (FONT_W + 1) * scale
+  let maxRowLabelLen = block:
+    var m = 0
+    for row in cells:
+      if row.len > 0: m = max(m, row[0].rowLabel.len)
+    m
+  let labelAreaH = charH + 16
+  let labelAreaW = max(40, charW * maxRowLabelLen + 8)
 
   let totalW = labelAreaW + nCols * cw + (nCols + 1) * gap
   let totalH = labelAreaH + nRows * ch + (nRows + 1) * gap
@@ -167,13 +176,13 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
   for ci in 0 ..< nCols:
     let cx = labelAreaW + ci * (cw + gap) + gap
     let label = cells[0][ci].colLabel
-    drawText(canvas, label, cx + 4, 8, 220, 220, 255, 2)
+    drawText(canvas, label, cx + 4, (labelAreaH - charH) div 2, 220, 220, 255, scale)
 
   # ---- 行ラベルを描画 ----
   for ri in 0 ..< nRows:
     let cy = labelAreaH + ri * (ch + gap) + gap
     let label = cells[ri][0].rowLabel
-    drawText(canvas, label, 4, cy + ch div 2 - FONT_H, 255, 220, 180, 2)
+    drawText(canvas, label, 4, cy + ch div 2 - charH div 2, 255, 220, 180, scale)
 
   # ---- 各セルを描画 ----
   var loaded = 0
@@ -189,7 +198,7 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
         empty += 1
         let emptyImg = newRGBImage(cw, ch, 60, 60, 65)
         canvas.copyRegion(emptyImg, dx, dy, 0, 0, cw, ch)
-        drawText(canvas, "NO IMAGE", dx + 10, dy + ch div 2 - 8, 120, 120, 120, 2)
+        drawText(canvas, "NO IMAGE", dx + 10, dy + ch div 2 - charH div 2, 120, 120, 120, scale)
       else:
         echo "  Loading: ", extractFilename(cell.filepath)
         try:
@@ -200,7 +209,7 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
           echo "  [ERROR] Failed to load: ", cell.filepath
           let errImg = newRGBImage(cw, ch, 80, 40, 40)
           canvas.copyRegion(errImg, dx, dy, 0, 0, cw, ch)
-          drawText(canvas, "ERROR", dx + 10, dy + ch div 2 - 8, 255, 80, 80, 2)
+          drawText(canvas, "ERROR", dx + 10, dy + ch div 2 - charH div 2, 255, 80, 80, scale)
 
   echo "  Loaded: ", loaded, "  Empty: ", empty
 
