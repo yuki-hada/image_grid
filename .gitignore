@@ -4,3 +4,4 @@ htmldocs/
 config.toml
 image_grid
 /*.png
+.DS_Store
