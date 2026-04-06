@@ -205,7 +205,7 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
           let img = loadImageAsRGB(cell.filepath, cw, ch)
           canvas.copyRegion(img, dx, dy, 0, 0, cw, ch)
           loaded += 1
-        except:
+        except CatchableError:
           echo "  [ERROR] Failed to load: ", cell.filepath
           let errImg = newRGBImage(cw, ch, 80, 40, 40)
           canvas.copyRegion(errImg, dx, dy, 0, 0, cw, ch)
