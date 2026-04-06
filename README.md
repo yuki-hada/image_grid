@@ -69,7 +69,7 @@ All fields have defaults — no field is strictly required. At minimum, you need
 | `cell_width` | `512` | Width of each cell in pixels |
 | `cell_height` | `512` | Height of each cell in pixels |
 | `gap` | `8` | Gap between cells in pixels |
-| `label_font_size` | `12` | Label font size |
+| `label_scale` | `2` | Label font scale |
 | `max_cols` | `0` | Split output into multiple files every N columns (0 = no split) |
 | `max_rows` | `0` | Split output into multiple files every N rows (0 = no split) |
 
@@ -185,6 +185,7 @@ cell_height = 512
 gap         = 10
 max_cols    = 12
 max_rows    = 0
+label_scale = 5
 
 [source]
 directory = "/path/to/images"
