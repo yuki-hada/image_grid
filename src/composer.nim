@@ -153,7 +153,7 @@ proc composePage*(cfg: Config, page: GridPage, outPath: string) =
   let cw = cfg.output.cell_width
   let ch = cfg.output.cell_height
 
-  let scale = max(1, cfg.output.label_font_size div FONT_H)
+  let scale = max(1, cfg.output.label_scale)
   let charH = FONT_H * scale
   let charW = (FONT_W + 1) * scale
   let maxRowLabelLen = block:

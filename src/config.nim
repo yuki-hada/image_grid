@@ -113,7 +113,7 @@ proc loadConfig*(path: string): Config =
       output.cell_width      = sec.keys.getInt("cell_width",  512)
       output.cell_height     = sec.keys.getInt("cell_height", 512)
       output.gap             = sec.keys.getInt("gap", 8)
-      output.label_font_size = sec.keys.getInt("label_font_size", 14)
+      output.label_scale = sec.keys.getInt("label_scale", 2)
       output.max_rows        = sec.keys.getInt("max_rows", 0)
       output.max_cols        = sec.keys.getInt("max_cols", 0)
     of "source":

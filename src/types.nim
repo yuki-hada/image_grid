@@ -31,7 +31,7 @@ type
     cell_width*: int
     cell_height*: int
     gap*: int
-    label_font_size*: int
+    label_scale*: int
     max_rows*: int
     max_cols*: int
 
