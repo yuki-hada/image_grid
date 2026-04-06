@@ -178,6 +178,7 @@ proc echoConfig*(cfg: Config) =
   echo "  Output     : ", cfg.output.filename
   echo "  Cell size  : ", cfg.output.cell_width, " x ", cfg.output.cell_height
   echo "  Gap        : ", cfg.output.gap, " px"
+  echo "  Label scale: ", cfg.output.label_scale
   if cfg.output.max_rows > 0: echo "  Max rows   : ", cfg.output.max_rows
   if cfg.output.max_cols > 0: echo "  Max cols   : ", cfg.output.max_cols
   case cfg.rowAxis.mode
