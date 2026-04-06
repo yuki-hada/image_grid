@@ -33,14 +33,6 @@ proc extractLabels(files: seq[string], axExtract: AxisExtract): seq[string] =
 
   for path in files:
     let filename = extractFilename(path)
-    var m: array[20, string]
-    if filename.match(pattern, m):
-      # 最初のキャプチャグループ (m[0] はマッチ全体、m[1]以降がグループ)
-      # std/re では find で captures を使う
-      discard # handled below
-
-  for path in files:
-    let filename = extractFilename(path)
     var captures: array[20, string]
     let mstart = find(filename, pattern, captures)
     if mstart >= 0:
