@@ -68,11 +68,11 @@ proc loadImageAsRGB(path: string, targetW, targetH: int): RGBImage =
 
 # ---- ラベル描画（シンプルな1px文字） ----
 
-# 5x7 ビットマップフォント（数字・アルファベット大文字・スペース）
+# 5x7 ビットマップフォント（数字・アルファベット大文字・記号・スペース）
 # 各文字は5列×7行のビット列
 const FONT_W = 5
 const FONT_H = 7
-const FONT: array[38, array[FONT_H, uint8]] = [
+const FONT: array[43, array[FONT_H, uint8]] = [
   # 0-9
   [0b01110u8, 0b10001u8, 0b10011u8, 0b10101u8, 0b11001u8, 0b10001u8, 0b01110u8],
   [0b00100u8, 0b01100u8, 0b00100u8, 0b00100u8, 0b00100u8, 0b00100u8, 0b01110u8],
@@ -114,6 +114,12 @@ const FONT: array[38, array[FONT_H, uint8]] = [
   # space (index 36), underscore (index 37)
   [0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8], # ' '
   [0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b11111u8], # '_'
+  # 記号 (index 38-42)
+  [0b00000u8, 0b00000u8, 0b00000u8, 0b11111u8, 0b00000u8, 0b00000u8, 0b00000u8], # '-'
+  [0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00000u8, 0b00110u8, 0b00110u8], # '.'
+  [0b00010u8, 0b00100u8, 0b01000u8, 0b01000u8, 0b01000u8, 0b00100u8, 0b00010u8], # '('
+  [0b01000u8, 0b00100u8, 0b00010u8, 0b00010u8, 0b00010u8, 0b00100u8, 0b01000u8], # ')'
+  [0b00001u8, 0b00010u8, 0b00100u8, 0b00100u8, 0b01000u8, 0b10000u8, 0b10000u8], # '/'
 ]
 
 proc charToFontIndex(c: char): int =
@@ -123,6 +129,11 @@ proc charToFontIndex(c: char): int =
   of 'a'..'z': return ord(c) - ord('a') + 10  # 小文字→大文字扱い
   of ' ': return 36
   of '_': return 37
+  of '-': return 38
+  of '.': return 39
+  of '(': return 40
+  of ')': return 41
+  of '/': return 42
   else: return 36  # 未知文字はスペース
 
 proc drawText(img: var RGBImage, text: string, x, y: int,
